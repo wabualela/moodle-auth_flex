@@ -32,3 +32,6 @@ $string['regisration_information'] = 'معلومات التسجيل';
 $string['personal_information']    = 'المعلومات الشخصية';
 $string['academic_informaiton']    = 'المعلومات الأكاديمية';
 $string['nationality']             = 'الجنسية';
+$string['phone1']                  = 'الجوال';
+$string['phone1_help']             = 'أضف الرقم مسبوقاُ بمفتاح الدولة';
+$string['missingphone1']           = 'رقم الهاتف مفقود';

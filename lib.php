@@ -23,6 +23,15 @@
  */
 
 
+ function flex_extend_navigation(global_navigation $navigation) {
+    global $PAGE;
+
+    $PAGE->requires->css('https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.1/build/css/intlTelInput.css');
+    $PAGE->requires->js('https://cdn.jsdelivr.net/npm/intl-tel-input@25.2.1/build/js/intlTelInput.min.js');
+
+    $PAGE->requires->css('/auth/flex/styles.css');
+    $PAGE->requires->js(new moodle_url("/auth/flex/js/scripts.js"));
+}
 function profile_signup_fields_by_shortnames(MoodleQuickForm $mform, array $shortnames = []) : void {
 
     if ($fields = profile_get_signup_fields()) {

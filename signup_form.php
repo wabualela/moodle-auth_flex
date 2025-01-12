@@ -151,8 +151,11 @@ class login_signup_form extends moodleform implements renderable, templatable {
         // Hook for plugins to extend form definition.
         core_login_extend_signup_form($mform);
 
-        $this->add_action_buttons(true, get_string('next'));
-
+        $buttonarray   = [];
+        $buttonarray[] = $mform->createElement('html', '<a href="/login/signup.php?step=2" class="btn btn-primary">' . get_string('next') . '</a>');
+        $buttonarray[] = $mform->createElement('html', '<a href="/login/index.php" class="btn btn-danger">' . get_string('cancel') . '</a>');
+        $mform->addElement('html', '<div style="margin: 20px 0;"></div>');
+        $mform->addGroup($buttonarray, 'buttonar', '', [' '], false);
     }
     protected function step2_form($mform) {
         global $CFG, $SITE;
@@ -194,10 +197,11 @@ class login_signup_form extends moodleform implements renderable, templatable {
 
         profile_signup_fields_by_shortnames($mform, ['education_level', 'current_job', 'marital_status']);
 
-        $mform->addElement('text', 'phone1', get_string('phone1'), 'maxlength="100" size="25"');
+        $mform->addElement('text', 'phone1', get_string('phone1', 'auth_flex'), 'maxlength="100" size="25"');
         $mform->setType('phone1', \core_user::get_property_type('phone1'));
-        $mform->addRule('phone1', get_string('missingemail'), 'required', null, 'client');
+        $mform->addRule('phone1', get_string('missingphone1', 'auth_flex'), 'required', null, 'client');
         $mform->setForceLtr('phone1');
+        $mform->addHelpButton('phone1', 'phone1', 'auth_flex');
 
         $manager = new \core_privacy\local\sitepolicy\manager();
         if ($manager->is_defined()) {

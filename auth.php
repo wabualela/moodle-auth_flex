@@ -45,6 +45,22 @@ class auth_plugin_flex extends auth_plugin_base {
         $this->authtype = 'flex';
     }
 
+   public function user_login($username, $password) {
+        global $CFG, $DB;
+        if ($user = $DB->get_record('user', array('username'=>$username, 'mnethostid'=>$CFG->mnet_localhost_id))) {
+            return validate_internal_user_password($user, $password);
+        }
+        return false;
+    }
+
+    public function user_update_password($user, $newpassword) {
+        $user = get_complete_user_data('id', $user->id);
+        // This will also update the stored hash to the latest algorithm
+        // if the existing hash is using an out-of-date algorithm (or the
+        // legacy md5 algorithm).
+        return update_internal_user_password($user, $newpassword);
+    }
+
     public function user_signup($user, $notify = true) {
         global $CFG, $DB, $SESSION;
 
@@ -118,7 +134,7 @@ class auth_plugin_flex extends auth_plugin_base {
         $errors     = [];
         $authplugin = get_auth_plugin($CFG->registerauth);
 
-        if ($SESSION->step == 1) {
+        if ($data['step'] == 1) {
 
             if (! validate_email($data['email'])) {
                 $errors['email'] = get_string('invalidemail');
@@ -171,7 +187,7 @@ class auth_plugin_flex extends auth_plugin_base {
             $tempuser->email     = $data['email'];
 
             $errmsg = '';
-            if ($SESSION->step == 1 && ! check_password_policy($data['password'], $errmsg, $tempuser)) {
+            if ($data['step'] == 1 && ! check_password_policy($data['password'], $errmsg, $tempuser)) {
                 $errors['password'] = $errmsg;
             }
 
@@ -182,6 +198,10 @@ class auth_plugin_flex extends auth_plugin_base {
         }
 
         return $errors;
+    }
+
+    public function can_confirm() {
+        return true;
     }
 
     public function user_confirm($username, $confirmsecret) {
@@ -213,6 +233,14 @@ class auth_plugin_flex extends auth_plugin_base {
 
     public function signup_form() {
         return new login_signup_form(null, null, 'post', '', array('autocomplete' => 'on'));
+    }
+
+    public function can_change_password() {
+        return true;
+    }
+
+    public function can_reset_password() {
+        return true;
     }
 
 }

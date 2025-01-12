@@ -32,3 +32,6 @@ $string['regisration_information'] = 'Registration Informaiton';
 $string['personal_information']    = 'Personal Information';
 $string['academic_informaiton']    = 'Academic Information';
 $string['nationality']             = 'Nationality';
+$string['phone1']             = 'Phone';
+$string['phone1_help']             = 'Add the number with the country code';
+$string['missingphone1']           = 'Missing phone number';
