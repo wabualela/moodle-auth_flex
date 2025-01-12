@@ -152,8 +152,8 @@ class login_signup_form extends moodleform implements renderable, templatable {
         core_login_extend_signup_form($mform);
 
         $buttonarray   = [];
-        $buttonarray[] = $mform->createElement('html', '<a href="/login/signup.php?step=2" class="btn btn-primary">' . get_string('next') . '</a>');
-        $buttonarray[] = $mform->createElement('html', '<a href="/login/index.php" class="btn btn-danger">' . get_string('cancel') . '</a>');
+        $buttonarray[] = $mform->createElement('submit', 'nextbutton', get_string('next'));
+        $buttonarray[] = $mform->createElement('cancel', 'cancelbutton', get_string('cancel'));
         $mform->addElement('html', '<div style="margin: 20px 0;"></div>');
         $mform->addGroup($buttonarray, 'buttonar', '', [' '], false);
     }
