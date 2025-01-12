@@ -35,3 +35,4 @@ $string['nationality']             = 'الجنسية';
 $string['phone1']                  = 'الجوال';
 $string['phone1_help']             = 'أضف الرقم مسبوقاُ بمفتاح الدولة';
 $string['missingphone1']           = 'رقم الهاتف مفقود';
+$string['login']                   = 'تسجيل / دخول';
