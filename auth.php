@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once "$CFG->libdir/authlib.php";
 require_once "$CFG->dirroot/auth/flex/signup_form.php";
+require_once "$CFG->dirroot/cohort/lib.php";
 
 /**
  * Authentication plugin auth_flex
@@ -45,9 +46,9 @@ class auth_plugin_flex extends auth_plugin_base {
         $this->authtype = 'flex';
     }
 
-   public function user_login($username, $password) {
+    public function user_login($username, $password) {
         global $CFG, $DB;
-        if ($user = $DB->get_record('user', array('username'=>$username, 'mnethostid'=>$CFG->mnet_localhost_id))) {
+        if ($user = $DB->get_record('user', array('username' => $username, 'mnethostid' => $CFG->mnet_localhost_id))) {
             return validate_internal_user_password($user, $password);
         }
         return false;
@@ -105,6 +106,13 @@ class auth_plugin_flex extends auth_plugin_base {
 
                 // Trigger event.
                 \core\event\user_created::create_from_userid($newuserdata->id)->trigger();
+
+                $cohortid = get_config('auth_flexauth', 'cohortid');
+
+                if ($cohortid) {
+                    // Add the user to the cohort.
+                    cohort_add_member($cohortid, $user->id);
+                }
 
                 if (! send_confirmation_email($newuserdata, $confirmationurl)) {
                     throw new \moodle_exception('auth_emailnoemail', 'auth_email');

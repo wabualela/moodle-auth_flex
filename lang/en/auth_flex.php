@@ -36,3 +36,6 @@ $string['phone1']                  = 'Phone';
 $string['phone1_help']             = 'Add the number with the country code';
 $string['missingphone1']           = 'Missing phone number';
 $string['login']                   = 'Login / Signup';
+
+$string['cohortid']      = 'Default Cohort';
+$string['cohortid_desc'] = 'Select the cohort to which users should be added after signup.';
